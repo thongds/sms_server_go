@@ -1,0 +1,120 @@
+{{define "content"}}
+<div class="content-wrapper">
+    <h3 class="page-heading mb-4">Country Setting</h3>
+    <div class="row mb-2">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title mb-4">country location
+
+                    </h5>
+
+                    <form method="post" action="/song-data" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Song Name</label>
+                              <input name = "song_name" type="text" value="" class="form-control p-input" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="song name">
+                        </div>
+                        <div class="form-check">
+                            <label>
+                                <input type="checkbox" name ="active" class="form-check-input">
+                                Active
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Meta data</label>
+                            <textarea rows="10" name = "meta_data" type="text" value="" class="form-control p-input" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Meta data"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="sel1">Select Category:</label>
+                            <select class="form-control" name="category_id">
+                            {{range .CategoryData}}
+                                <option value="{{.ID}}">{{.Name}}</option>
+                            {{end}}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="sel1">Select Country:</label>
+                            <select class="form-control" name="country_id">
+                            {{range .CountryData}}
+                                <option value="{{.ID}}">{{.Name}}</option>
+                            {{end}}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="sel1">Select Singer:</label>
+                            <select class="form-control" name="singer_id">
+                            {{range .SingerData}}
+                                <option value="{{.ID}}">{{.Name}}</option>
+                            {{end}}
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Source File</label>
+                            <input type="file" name="source_file">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Source Lyric</label>
+                            <input type="file" name="source_lyric">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Image</label>
+                            <input type="file" name="image">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Thumb</label>
+                            <input type="file" name="thumb">
+                        </div>
+
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                        <input type="hidden" name="id" value="" />
+                    </form>
+
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-lg-12 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title mb-4">Song Lists</h5>
+                            <table class="table">
+                                <thead>
+                                <tr class="">
+                                    <th>#</th>
+                                    <th>Song Name</th>
+                                    <th>Created</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {{range .SongData}}
+                                <tr {{if eq .Active  "off"}}class="table-danger"{{end}}>
+                                    <th scope="row">{{.ID}}</th>
+                                    <td>{{.Name}}</td>
+                                    <td>{{.CreatedAt}}</td>
+                                    <td>
+                                        <a href="/song-data?action=edit&id={{.ID}}"><button type="button" class="btn btn-primary mr-2">Edit</button></a>
+                                    {{if eq .Active  "on"}}
+                                        <a href="/song-data?action=off&id={{.ID}}"><button type="button" class="btn btn-outline-danger">Deactive</button></a>
+                                    {{else}}
+                                        <a href="/song-data?action=on&id={{.ID}}"><button type="button" class=" btn btn-outline-primary mr-2">Active</button></a>
+                                    {{end}}
+                                    </td>
+                                </tr>
+                                {{end}}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{end}}

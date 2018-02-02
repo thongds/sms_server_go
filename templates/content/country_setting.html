@@ -1,0 +1,72 @@
+{{define "content"}}
+<div class="content-wrapper">
+    <h3 class="page-heading mb-4">Country Setting</h3>
+    <div class="row mb-2">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title mb-4">country location
+
+                    </h5>
+
+                    <form method="post" action="/country-setting">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Country Name</label>
+                              <input name = "country" type="text" value="{{if ne .CountryEdit.Name ""}}{{.CountryEdit.Name}}{{end}}" class="form-control p-input" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter category">
+                        </div>
+                        <div class="form-group">
+                            <div class="form-check">
+                                <label>
+                                    <input type="checkbox" name ="active" class="form-check-input"{{if eq .CountryEdit.Active "on"}}checked{{end}}>
+                                    Active
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                        <input type="hidden" name="id" value="{{.CountryEdit.ID}}" />
+                    </form>
+
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-lg-12 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title mb-4">Country Lists</h5>
+                            <table class="table">
+                                <thead>
+                                <tr class="">
+                                    <th>#</th>
+                                    <th>Country Name</th>
+                                    <th>Created</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {{range .CountryData}}
+                                <tr {{if eq .Active  "off"}}class="table-danger"{{end}}>
+                                    <th scope="row">{{.ID}}</th>
+                                    <td>{{.Name}}</td>
+                                    <td>{{.CreatedAt}}</td>
+                                    <td>
+                                        <a href="/country-setting?action=edit&id={{.ID}}"><button type="button" class="btn btn-primary mr-2">Edit</button></a>
+                                        {{if eq .Active  "on"}}
+                                        <a href="/country-setting?action=off&id={{.ID}}"><button type="button" class="btn btn-outline-danger">Deactive</button></a>
+                                        {{else}}
+                                        <a href="/country-setting?action=on&id={{.ID}}"><button type="button" class=" btn btn-outline-primary mr-2">Active</button></a>
+                                        {{end}}
+                                    </td>
+                                </tr>
+                                {{end}}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{end}}
